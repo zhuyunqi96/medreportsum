@@ -7,13 +7,6 @@ Yunqi Zhu, Xuebing Yang, Yuanyuan Wu, Wensheng Zhang
 Download fine-tuned checkpoints through: [OneDrive](https://1drv.ms/f/s!AjwwtI5OAMyOh3RWkzhJ7utPAz2G?e=iTsLmE) or [BaiduPan]()
 
 
-[pre-print paper] (https://arxiv.org/abs/2302.04001)
-
-Download fine-tuned checkpoints through: 
-
-​	[OneDrive] (https://1drv.ms/f/s!AjwwtI5OAMyOh3RWkzhJ7utPAz2G?e=iTsLmE) or [BaiduPan] ()
-
-
 
 1. generate "ECHO.json", "DISCHARGE.json", "RADIOLOGY.json" to './dataset'
 
