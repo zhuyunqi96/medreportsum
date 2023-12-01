@@ -38,18 +38,20 @@ if __name__ == '__main__':
     print(sumOutputSec)
         
     file_path_list = []
-    for file in os.listdir(mimic3_path):
+    for file in [f for f in os.listdir(mimic3_path) if f.endswith(".csv")]:
         file_path = os.path.join(mimic3_path, file)
         file_path_list.append(file_path)
 
-    chunksize = 50000
+    file_path_list.sort()
     
+    chunksize = 50000
+    NOTEEVENTS = file_path_list[18]
 
     # ======= ECHO =======
     tgt_column = 'Echo'
     tgt_df = None
-    with pd.read_csv(file_path_list[18], chunksize=chunksize) as reader:
-        for chunk in reader:                
+    with pd.read_csv(NOTEEVENTS, chunksize=chunksize) as reader:
+        for chunk in reader:
             check_subject = chunk[chunk['CATEGORY'] == tgt_column]
             check_subject = check_subject[check_subject['ISERROR'].isna()] # find rows that are not errors
             if check_subject.shape[0] > 0:
@@ -151,7 +153,7 @@ if __name__ == '__main__':
     # ======= RADIOLOGY =======
     tgt_df = None
     tgt_column = 'Radiology'
-    with pd.read_csv(file_path_list[18], chunksize=chunksize) as reader:
+    with pd.read_csv(NOTEEVENTS, chunksize=chunksize) as reader:
         for chunk in reader:                
             check_subject = chunk[chunk['CATEGORY'] == tgt_column]
             check_subject = check_subject[check_subject['ISERROR'].isna()] # find rows that are not errors
@@ -298,7 +300,7 @@ if __name__ == '__main__':
         'Pharmacy', 'Physician', 'Rehab Services', 'Respiratory', 'Social Work', 'Consult', 'Radiology', 'Nursing/other']
 
     discharge_summary_df = None
-    with pd.read_csv(file_path_list[18], chunksize=chunksize) as reader:
+    with pd.read_csv(NOTEEVENTS, chunksize=chunksize) as reader:
         for chunk in reader:
             chunks_count += 1
             check = chunk.groupby('CATEGORY')['CATEGORY']
@@ -363,7 +365,7 @@ if __name__ == '__main__':
     hadm_id_list = discharge_dict.keys()
 
     otherevents_row_id = []
-    with pd.read_csv(file_path_list[18], chunksize=chunksize) as reader:
+    with pd.read_csv(NOTEEVENTS, chunksize=chunksize) as reader:
         for chunk in tqdm(reader):
             check_other = chunk[chunk['CATEGORY'] != 'Discharge summary']
             check_other = check_other[check_other['HADM_ID'].isin(hadm_id_list)]
